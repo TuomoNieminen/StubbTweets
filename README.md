@@ -24,13 +24,13 @@ par(mar=c(8,9,6,4))
 h <- hist(tw$created, main = paste(tweeter, "tweets by month"),
      breaks="month", freq=T, 
      xlab="",ylab="", las=2,
-     labels=T, cex.axis=1.5, cex.lab=2,
+     labels=T, cex.axis=1.3, cex.lab=1.5,
      ylim= c(0,400), format="%Y-%m",
      col="cadetblue3")
 mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
 ```
 
-<img src="figure/monthly_tweets-1.png" title="plot of chunk monthly_tweets" alt="plot of chunk monthly_tweets" width="700px" />
+<img src="figure/monthly_tweets-1.png" title="plot of chunk monthly_tweets" alt="plot of chunk monthly_tweets" width="650px" />
 
 ### Daily tweets
 
@@ -40,16 +40,16 @@ par(mar=c(7,9,5,3))
 h <- hist(tw$created, main = paste(tweeter, "tweets by day"),
           breaks="days", freq=T, 
           xlab="", ylab="",col="grey55", lty=0,
-          cex.axis=2 ,cex.lab=2, tck=0.05, xaxt="n")
+          cex.axis=1.3 ,cex.lab=1.5, tck=0.05, xaxt="n")
 peaks=2
 tickpos <- h$breaks[order(h$counts,decreasing=T)[1:peaks]]
 labels <- names(sort(table(format(tw$created,"%d.%m.%Y")),decreasing=T))[1:peaks]
-axis(1, at=tickpos, labels=labels,cex.axis=2)
-mtext(side = 2, text = "tweets", line = 5, cex = 2)
-mtext(side = 1, text = "day", line = 3, cex = 2)
+axis(1, at=tickpos, labels=labels,cex.axis=1.5)
+mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
+mtext(side = 1, text = "day", line = 3, cex = 1.5)
 ```
 
-<img src="figure/daily_tweets-1.png" title="plot of chunk daily_tweets" alt="plot of chunk daily_tweets" width="700px" />
+<img src="figure/daily_tweets-1.png" title="plot of chunk daily_tweets" alt="plot of chunk daily_tweets" width="650px" />
 
 ### Hourly tweets
 
@@ -60,12 +60,12 @@ hourly_prc <- paste(round(100*hourly/sum(hourly),1),"%")
 par(mar=c(8,10,5,3))
 bp <- barplot(hourly, main = paste(tweeter, "tweets by hour"),
               space=0.5, ylim=c(0,250),
-              ylab="",cex.lab=2, cex.names = 2,
-              cex.axis=2, las=2, col = "deepskyblue3",
+              ylab="",cex.lab=1.5, cex.names = 1.5,
+              cex.axis=1.5, las=2, col = "deepskyblue3",
               xlab="")
-text(bp+0.1, hourly, hourly_prc, pos=3, cex=1.3) 
-mtext(side = 2, text = "tweets", line = 5, cex = 2)
-mtext(side = 1, text = "time", line = 5, cex = 2)
+text(bp+0.1, hourly, hourly_prc, pos=3, cex=1.2) 
+mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
+mtext(side = 1, text = "time", line = 5, cex = 1.5)
 ```
 
 <img src="figure/tweets_hour-1.png" title="plot of chunk tweets_hour" alt="plot of chunk tweets_hour" width="700px" />
@@ -99,11 +99,11 @@ newpar <- par(mfrow=c(2,2))
 for(i in 1:4){
   time <- topdaydata[[i]]$created
   hist(time, breaks=100,freq=T,border=NULL,ylab="Tweets",
-       tck=0,cex.axis=0.8,cex.lab=0.6, xlab="",
-       main=paste0(tweeter," ",i ),
-       cex.main=0.7, ylim=c(0,8))
+       tck=0,cex.axis=0.8, cex.lab=0.8, xlab="",
+       main=paste0(tweeter," ",time),
+       cex.main=1, ylim=c(0,8), las = 2)
 }
 ```
 
-<img src="figure/top_days-1.png" title="plot of chunk top_days" alt="plot of chunk top_days" width="700px" />
+<img src="figure/top_days-1.png" title="plot of chunk top_days" alt="plot of chunk top_days" width="650px" />
 
