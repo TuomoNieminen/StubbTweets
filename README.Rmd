@@ -1,7 +1,7 @@
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, out.width = "800px")
+knitr::opts_chunk$set(echo = TRUE, out.width = "700px")
 
 source("utility/functions.R")
 
