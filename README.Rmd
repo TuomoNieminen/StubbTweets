@@ -99,7 +99,7 @@ for(i in 1:4){
   time <- topdaydata[[i]]$created
   hist(time, breaks=100,freq=T,border=NULL,ylab="Tweets",
        tck=0,cex.axis=0.8, cex.lab=0.8, xlab="",
-       main=paste0(tweeter," ",time),
+       main=paste0(tweeter," ",top5days[i]),
        cex.main=1, ylim=c(0,8), las = 2)
 }
 ```
