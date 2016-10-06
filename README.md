@@ -101,7 +101,7 @@ for(i in 1:4){
   hist(time, breaks=100,freq=T,border=NULL,ylab="Tweets",
        tck=0,cex.axis=0.8, cex.lab=0.8, xlab="",
        main=paste0(tweeter," ",top5days[i]),
-       cex.main=1, ylim=c(0,8), las = 2)
+       cex.main=1, ylim=c(0,8))
 }
 ```
 
