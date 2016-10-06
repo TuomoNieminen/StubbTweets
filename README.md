@@ -6,8 +6,11 @@
 
 description of the project here
 
-
 ## Explorative analysis
+
+Some basic exploration of the data via pics. Timelines of tweets.
+
+### Scope
 
 
 
@@ -60,10 +63,10 @@ hourly_prc <- paste(round(100*hourly/sum(hourly),1),"%")
 par(mar=c(8,10,5,3))
 bp <- barplot(hourly, main = paste(tweeter, "tweets by hour"),
               space=0.5, ylim=c(0,250),
-              ylab="",cex.lab=1.2, cex.names = 1.2,
+              ylab="",cex.lab=1, cex.names = 1.2,
               cex.axis=1.2, las=2, col = "deepskyblue3",
               xlab="")
-text(bp+0.1, hourly, hourly_prc, pos=3, cex=0.9) 
+text(bp+0.1, hourly, hourly_prc, pos=3, cex=0.8) 
 mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
 mtext(side = 1, text = "time", line = 5, cex = 1.5)
 ```
