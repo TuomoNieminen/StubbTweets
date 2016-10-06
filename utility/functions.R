@@ -103,7 +103,7 @@ get_documentTermMatrix <- function(search_text, searchwords=NULL,language="fi") 
   
   # get stopwords for filtering out filler words
   if(language=="fi") {
-    finwords <- get(load("data/fi_stopwords.Rda"))
+    finwords <- get(load("utility/fi_stopwords.Rda"))
   } else {
     finwords <- NULL
   }
