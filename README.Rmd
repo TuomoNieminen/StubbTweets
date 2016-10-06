@@ -1,0 +1,98 @@
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+source("utility/functions.R")
+
+#load data
+tweeter <- "alexstubb"
+filepath <- paste0("data/",tweeter,"_tweets.Rda")
+
+tw <- get(load(filepath))
+tweeter_languages <- unique(tw$languages)
+
+```
+
+# Wellcome
+
+<description of the project>
+
+## Explorative analysis
+
+```{r, include = FALSE}
+mindate <- format(min(tw$created),"%d.%m.%Y")
+maxdate <- format(max(tw$created),"%d.%m.%Y")
+ntweets <- nrow(tw)
+```
+
+mindate     | maxdate     | tweets
+----------- | ----------- | -------
+`r mindate` | `r maxdate` | `r ntweets`
+
+
+### Monthly tweets
+
+```{r monthly_tweets}
+par(mar=c(8,9,6,4))
+h <- hist(main="",
+     tw$created, breaks="month", freq=T, 
+     xlab="",ylab="", las=2,
+     labels=T, cex.axis=2.2, cex.lab=2.4,
+     ylim= c(0,400), format="%Y-%m",
+     col="cadetblue3")
+mtext(side = 2, text = "tweets", line = 5, cex = 2.7)
+```
+
+### Daily tweets
+
+```{r daily_tweets}
+par(mar=c(7,9,5,3))
+h <- hist(main="",tw$created, breaks="days", freq=T, 
+          xlab="", ylab="",col="grey55", lty=0,
+          cex.axis=2.5 ,cex.lab=2.5, tck=0.05, xaxt="n")
+peaks=2
+tickpos <- h$breaks[order(h$counts,decreasing=T)[1:peaks]]
+labels <- names(sort(table(format(tw$created,"%d.%m.%Y")),decreasing=T))[1:peaks]
+axis(1, at=tickpos, labels=labels,cex.axis=2.5)
+mtext(side = 2, text = "tweets", line = 5, cex = 2.7)
+mtext(side = 1, text = "day", line = 3, cex = 2.7)
+```
+
+### Hourly tweets
+
+```{r tweets_hour}
+hourly <- table(format(tw$created,"%H"))
+hourly_prc <- paste(round(100*hourly/sum(hourly),1),"%")
+par(mar=c(8,10,5,3))
+bp <- barplot(hourly, space=0.5, ylim=c(0,250),
+              ylab="",cex.lab=2.5, cex.names = 2.5,
+              cex.axis=2.5, las=2, col = "deepskyblue3",
+              xlab="")
+text(bp+0.1, hourly, hourly_prc, pos=3, cex=1.3) 
+mtext(side = 2, text = "tweets", line = 5, cex = 2.7)
+mtext(side = 1, text = "time", line = 5, cex = 2.4)
+```
+
+### Most active tweet days
+
+```{r active_days}
+top10tweetdays <- sort(table(format(tw$created,"%Y-%m-%d")),decreasing=T)[1:10]
+top10tweetdays
+top10days <- names(top10tweetdays)
+
+topdaydata <- lapply(1:4,function(day) {
+  get_datedata(tw, top10days[day])
+})
+
+
+newpar <- par(mfrow=c(2,2))
+for(i in 1:4){
+  time <- topdaydata[[i]]$created
+  hist(time, breaks=100,freq=T,border=NULL,ylab="Tweets",
+       tck=0,cex.axis=0.8,cex.lab=0.6, xlab="",
+       main=paste0(tweeter," ",i ,". most active tweet day"),
+       cex.main=0.7, ylim=c(0,8))
+}
+```
+
