@@ -30,7 +30,7 @@ h <- hist(tw$created, main = paste(tweeter, "tweets by month"),
 mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
 ```
 
-![plot of chunk monthly_tweets](figure/monthly_tweets-1.png)
+<img src="figure/monthly_tweets-1.png" title="plot of chunk monthly_tweets" alt="plot of chunk monthly_tweets" width="800px" />
 
 ### Daily tweets
 
@@ -49,7 +49,7 @@ mtext(side = 2, text = "tweets", line = 5, cex = 2)
 mtext(side = 1, text = "day", line = 3, cex = 2)
 ```
 
-![plot of chunk daily_tweets](figure/daily_tweets-1.png)
+<img src="figure/daily_tweets-1.png" title="plot of chunk daily_tweets" alt="plot of chunk daily_tweets" width="800px" />
 
 ### Hourly tweets
 
@@ -68,7 +68,7 @@ mtext(side = 2, text = "tweets", line = 5, cex = 2)
 mtext(side = 1, text = "time", line = 5, cex = 2)
 ```
 
-![plot of chunk tweets_hour](figure/tweets_hour-1.png)
+<img src="figure/tweets_hour-1.png" title="plot of chunk tweets_hour" alt="plot of chunk tweets_hour" width="800px" />
 
 ### Most active tweet days
 
@@ -105,5 +105,5 @@ for(i in 1:4){
 }
 ```
 
-![plot of chunk top_days](figure/top_days-1.png)
+<img src="figure/top_days-1.png" title="plot of chunk top_days" alt="plot of chunk top_days" width="800px" />
 
