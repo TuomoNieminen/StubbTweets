@@ -30,7 +30,7 @@ h <- hist(tw$created, main = paste(tweeter, "tweets by month"),
 mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
 ```
 
-<img src="figure/monthly_tweets-1.png" title="plot of chunk monthly_tweets" alt="plot of chunk monthly_tweets" width="650px" />
+<img src="figure/monthly_tweets-1.png" title="plot of chunk monthly_tweets" alt="plot of chunk monthly_tweets" width="600px" />
 
 ### Daily tweets
 
@@ -49,7 +49,7 @@ mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
 mtext(side = 1, text = "day", line = 3, cex = 1.5)
 ```
 
-<img src="figure/daily_tweets-1.png" title="plot of chunk daily_tweets" alt="plot of chunk daily_tweets" width="650px" />
+<img src="figure/daily_tweets-1.png" title="plot of chunk daily_tweets" alt="plot of chunk daily_tweets" width="600px" />
 
 ### Hourly tweets
 
@@ -63,7 +63,7 @@ bp <- barplot(hourly, main = paste(tweeter, "tweets by hour"),
               ylab="",cex.lab=1.5, cex.names = 1.5,
               cex.axis=1.5, las=2, col = "deepskyblue3",
               xlab="")
-text(bp+0.1, hourly, hourly_prc, pos=3, cex=1.2) 
+text(bp+0.1, hourly, hourly_prc, pos=3, cex=1) 
 mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
 mtext(side = 1, text = "time", line = 5, cex = 1.5)
 ```
@@ -105,5 +105,5 @@ for(i in 1:4){
 }
 ```
 
-<img src="figure/top_days-1.png" title="plot of chunk top_days" alt="plot of chunk top_days" width="650px" />
+<img src="figure/top_days-1.png" title="plot of chunk top_days" alt="plot of chunk top_days" width="600px" />
 

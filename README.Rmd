@@ -1,7 +1,7 @@
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, out.width = "650px")
+knitr::opts_chunk$set(echo = TRUE, out.width = "600px")
 
 source("utility/functions.R")
 
@@ -72,7 +72,7 @@ bp <- barplot(hourly, main = paste(tweeter, "tweets by hour"),
               ylab="",cex.lab=1.5, cex.names = 1.5,
               cex.axis=1.5, las=2, col = "deepskyblue3",
               xlab="")
-text(bp+0.1, hourly, hourly_prc, pos=3, cex=1.2) 
+text(bp+0.1, hourly, hourly_prc, pos=3, cex=1) 
 mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
 mtext(side = 1, text = "time", line = 5, cex = 1.5)
 ```
