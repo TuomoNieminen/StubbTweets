@@ -66,9 +66,9 @@ bp <- barplot(hourly, main = paste(tweeter, "tweets by hour"),
               ylab="",cex.lab=1, cex.names = 1.2,
               cex.axis=1.2, las=2, col = "deepskyblue3",
               xlab="")
-text(bp+0.1, hourly, hourly_prc, pos=3, cex=0.8) 
-mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
-mtext(side = 1, text = "time", line = 5, cex = 1.5)
+text(bp+0.1, hourly, hourly_prc, pos=3, cex=0.7) 
+mtext(side = 2, text = "tweets", line = 5, cex = 1.3)
+mtext(side = 1, text = "time", line = 5, cex = 1.3)
 ```
 
 <img src="figure/tweets_hour-1.png" title="plot of chunk tweets_hour" alt="plot of chunk tweets_hour" width="700px" />
