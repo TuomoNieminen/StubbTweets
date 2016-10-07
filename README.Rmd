@@ -144,7 +144,7 @@ par(mfrow= c(3,1))
 temp <- lapply(FREQ, function(lang) {
   suppressWarnings(
     wordcloud(lang$word, lang$freq,
-            scale = c(6,1),
+            scale = c(5,1),
             random.order=FALSE, colors=brewer.pal(8, "Dark2")))
 })
 
