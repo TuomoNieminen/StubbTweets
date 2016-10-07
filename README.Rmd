@@ -131,7 +131,7 @@ barplot(hash$freq, horiz=T, names.arg=hash$tag,
 
 ### Most used words
 
-```{r wordclouds}
+```{r wordclouds, out.height="900px"}
 # document term matrices for each language
 DTM <- get(load(paste0("data/",tweeter,"_DTM.Rda")))
 
@@ -141,10 +141,11 @@ names(FREQ) <- names(DTM)
 
 # wordclouds
 par(mfrow= c(3,1))
-lapply(FREQ, function(lang) {
-  wordcloud(lang$word, lang$freq,
+temp <- lapply(FREQ, function(lang) {
+  suppressWarnings(
+    wordcloud(lang$word, lang$freq,
             scale = c(6,1),
-            random.order=FALSE, colors=brewer.pal(8, "Dark2"))
+            random.order=FALSE, colors=brewer.pal(8, "Dark2")))
 })
 
 ```
