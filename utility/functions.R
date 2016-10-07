@@ -199,6 +199,7 @@ extract_hashes = function(tweet_text){
   df = data.frame(table(tolower(unlist(extracted.hash))))
   colnames(df) = c("tag","freq")
   df = df[order(df$freq,decreasing = TRUE),]
+  rownames(df) <- NULL
   return(df)
 }
 

@@ -9,8 +9,15 @@ source("utility/functions.R")
 tweeter <- "alexstubb"
 filepath <- paste0("data/",tweeter,"_tweets.Rda")
 
+# raw tweet data
 tw <- get(load(filepath))
-tweeter_languages <- unique(tw$languages)
+
+# tweet data with topics (separated by language)
+TW <- get(load(paste0("data/",tweeter,"_topicdata.Rda")))
+tweeter_languages <- names(TW)
+
+tw_fi <- TW[["finnish"]]
+topic_labels <- c("Kannanottoja", "SuomiNousuun","KookoomusTsemppi","Kansanviestit")
 
 ```
 
@@ -107,3 +114,39 @@ for(i in 1:4){
 }
 ```
 
+### Hashtag frequencies
+
+```{r hashfreq}
+hashcounts <- extract_hashes(tw$text)
+hash <- head(hashcounts, 5)
+kable(hash)
+```
+
+```{r hashfreq_plot}
+par(las=2, mar=c(5,14,4,2))
+barplot(hash$freq, horiz=T, names.arg=hash$tag,
+        cex.names=1.3, cex.axis = 1.5,
+        col = "skyblue", border=NA)
+```
+
+### Most used words
+
+```{r wordclouds}
+# document term matrices for each language
+DTM <- get(load(paste0("data/",tweeter,"_DTM.Rda")))
+
+# word frequencies for each language
+FREQ <- lapply(DTM, twitter_wordfreqs)
+names(FREQ) <- names(DTM)
+
+# wordclouds
+par(mfrow= c(3,1))
+lapply(FREQ, function(lang) {
+  wordcloud(lang$word, lang$freq,
+            scale = c(6,1),
+            random.order=FALSE, colors=brewer.pal(8, "Dark2"))
+})
+
+```
+
+knit(input = "readme.Rmd", output = "README.md")
