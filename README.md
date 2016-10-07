@@ -160,6 +160,6 @@ temp <- lapply(FREQ, function(lang) {
 })
 ```
 
-<img src="figure/wordclouds-1.png" title="plot of chunk wordclouds" alt="plot of chunk wordclouds" width="600px" height="900px" />
+<img src="figure/wordclouds-1.png" title="plot of chunk wordclouds" alt="plot of chunk wordclouds" width="900px" height="900px" />
 
 knit(input = "readme.Rmd", output = "README.md")

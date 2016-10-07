@@ -131,7 +131,7 @@ barplot(hash$freq, horiz=T, names.arg=hash$tag,
 
 ### Most used words
 
-```{r wordclouds, out.height="900px"}
+```{r wordclouds, out.height="900px", out.width = "900px"}
 # document term matrices for each language
 DTM <- get(load(paste0("data/",tweeter,"_DTM.Rda")))
 
