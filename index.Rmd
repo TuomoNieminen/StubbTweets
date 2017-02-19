@@ -2,8 +2,14 @@
 title: "StubbTweets"
 author: Tuomo Nieminen
 date: 01.02.2016
-output: html_document
-code_folding: hide
+output: 
+  html_document:
+    theme: cosmo
+    fig_caption: true
+    fig_width: 8
+    fig_height: 6
+    code_folding: hide
+    df_print: kable
 ---
 
 ```{r setup, include=FALSE}
@@ -16,7 +22,7 @@ access_libraries(install_all = F)
 tweeter <- "alexstubb"
 filepath <- paste0("data/",tweeter,"_tweets.Rda")
 tw <- get(load(filepath))
-tw <- dplyr::select(tw, - suosio)
+tw <- dplyr::select(tw, -suosio)
 ```
 
 ![](figure/stubb_hyppy.png)
@@ -89,8 +95,8 @@ mtext(side = 1, text = "time", line = 5, cex = 1.3)
 # Most active tweet days
 
 ```{r active_days}
-top5tweetdays <- sort(table(format(tw$created,"%Y-%m-%d")),decreasing=T)[1:5]
-top5tweetdays
+top5tweetdays <- sort(table(Date = format(tw$created,"%Y-%m-%d")),decreasing=T)[1:5]
+data.frame(top5tweetdays)
 ```
 
 
@@ -151,6 +157,7 @@ temp <- lapply(FREQ, function(lang) {
 
 # A comment from Stubb
 
-The former prime minister commented on the analysis using twitter.
+The former prime minister commented on the analysis using twitter.  
+
 
 ![](figure/stubb_response.png)
