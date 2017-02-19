@@ -5,38 +5,41 @@
 # Libraries
 # ---------
 
-if(!require(RCurl)) {install.packages("RCurl"); library(RCurl)}
-if(!require(httr)) {install.packages("httr"); library(httr)}
-set_config( config( ssl_verifypeer = 0L ) )
-
-if(!require(devtools)) {install.packages("devtools"); library(devtools)}
-
-install <- FALSE # set this to true if you need to install the packages below
-
-doInstall <- c("ROAuth", "igraph", "ggplot2", "wordcloud", "devtools", "tm",
-               "R2WinBUGS", "rmongodb", "scales")
-if(install) {
-  install.packages(doInstall, repos = "http://cran.r-project.org")
-  install_github("streamR", "pablobarbera", subdir="streamR")
-  install_github("smappR", "SMAPPNYU")
+access_libraries <- function(install_all = F) {
+  
+  if(!require(RCurl)) {install.packages("RCurl"); library(RCurl)}
+  if(!require(httr)) {install.packages("httr"); library(httr)}
+  set_config( config( ssl_verifypeer = 0L ) )
+  
+  if(!require(devtools)) {install.packages("devtools"); library(devtools)}
+  
+  doInstall <- c("ROAuth", "igraph", "ggplot2", "wordcloud", "devtools", "tm",
+                 "R2WinBUGS", "rmongodb", "scales")
+  if(install_all) {
+    install.packages(doInstall, repos = "http://cran.r-project.org")
+    install_github("pablobarbera/streamR", subdir="streamR")
+    # install_github("SMAPPNYU/smappR")
+  }
+  library(streamR)
+  # library(smappR)
+  
+  if(!require(twitteR)){ install.packages("twitteR"); library(twitteR)}
+  if(!require(slam)) { install.packages("slam"); library(slam)}
+  if(!require(tm)){install.packages("tm");library(tm)}
+  if(!require(wordcloud)){install.packages("wordcloud"); library(wordcloud)}
+  if(!require(RColorBrewer)){install.packages("RColorBrewer"); library(RColorBrewer)}
+  if(!require(stringr)) {install.packages("stringr"); library(stringr)}
+  if(!require(topicmodels)) {install.packages("topicmodels"); library(topicmodels)}
+  if(!require(textcat)) {install.packages("textcat"); library(textcat)}
+  if(!require(data.table)) {install.packages("data.table"); library(data.table)}
+  if(!require(ggplot2)) {install.packages("ggplot2"); library(ggplot2)}
+  if(!require(plyr)) {install.packages("plyr"); library(plyr)}
+  if(!require(dplyr)) {install.packages("dplyr"); library(dplyr)}
+  if(!require(knitr)) {install.packages("knitr"); library(knitr)}
+  
+  library(grid)
+  
 }
-library(streamR)
-library(smappR)
-
-if(!require(twitteR)){ install.packages("twitteR"); library(twitteR)}
-if(!require(slam)) { install.packages("slam"); library("slam")}
-if(!require(tm)){install.packages("tm");library(tm)}
-if(!require(wordcloud)){install.packages("wordcloud"); library(wordcloud)}
-if(!require(RColorBrewer)){install.packages("RColorBrewer"); library(RColorBrewer)}
-if(!require(stringr)) {install.packages("stringr"); library(stringr)}
-if(!require(topicmodels)) {install.packages("topicmodels"); library(topicmodels)}
-if(!require(textcat)) {install.packages("textcat"); library(textcat)}
-if(!require(data.table)) {install.packages("data.table"); library(data.table)}
-if(!require(ggplot2)) {install.packages("ggplot2"); library(ggplot2)}
-if(!require(plyr)) {install.packages("plyr"); library(plyr)}
-library(grid)
-
-
 # Getting the raw data
 # ------------------------
 

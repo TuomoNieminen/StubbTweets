@@ -1,4 +1,10 @@
+# Topic modelling on Alexader Stubb's tweets
+# auth: tuomo.a.nieminen@gmail.com
+# 01.02.2016
+
+
 source("utility/functions.R")
+access_libraries()
 
 # #load data
 

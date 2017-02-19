@@ -1,3 +1,4 @@
+# Retrieve data from twitter (Alexander Stubb tweets)
 # auth: tuomo.a.nieminen@gmail.com
 # 01.02.2016
 
@@ -6,6 +7,7 @@
 # -----------
 
 source("utility/functions.R")
+access_libraries()
 
 tweeter <- "alexstubb"
 timezone <- 2
