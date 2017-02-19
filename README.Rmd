@@ -1,153 +1,17 @@
+![](figure/stubb_hyppy.png)
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, out.width = "600px")
-
-source("utility/functions.R")
-
-#load data
-tweeter <- "alexstubb"
-filepath <- paste0("data/",tweeter,"_tweets.Rda")
-
-# raw tweet data
-tw <- get(load(filepath))
-
-# tweet data with topics (separated by language)
-TW <- get(load(paste0("data/",tweeter,"_topicdata.Rda")))
-tweeter_languages <- names(TW)
-
-tw_fi <- TW[["finnish"]]
-topic_labels <- c("Kannanottoja", "SuomiNousuun","KookoomusTsemppi","Kansanviestit")
-
-```
-
-# Wellcome
-
-description of the project here
-
-## Explorative analysis
-
-Some basic exploration of the data via pics. Timelines of tweets.
-
-### Scope
-
-```{r, include = FALSE}
-mindate <- format(min(tw$created),"%d.%m.%Y")
-maxdate <- format(max(tw$created),"%d.%m.%Y")
-ntweets <- nrow(tw)
-```
-
-mindate     | maxdate     | tweets
------------ | ----------- | -------
-`r mindate` | `r maxdate` | `r ntweets`
+*Graphic by Heikki Ritaluoma*
 
 
-### Monthly tweets
+# Welcome to the Stubbtweets repository
 
-```{r monthly_tweets}
-par(mar=c(8,9,6,4))
-h <- hist(tw$created, main = paste(tweeter, "tweets by month"),
-     breaks="month", freq=T, 
-     xlab="",ylab="", las=2,
-     labels=T, cex.axis=1.3, cex.lab=1.5,
-     ylim= c(0,400), format="%Y-%m",
-     col="cadetblue3")
-mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
-```
+This Github repository includes the codes for explorations of former prime minister of Finland Alexsander Stubb's tweets, retreived from the twitter API and ananalyzed using the R programming language for statistical analysis. 
 
-### Daily tweets
+Descriptive explorations of the tweets can be seen [on this GitHub page]() and a more detailed article (in Finnish) is published in [Tyyppiarvo.com](http://tyyppiarvo.com/2016/03/kannanottoja-ja-kokoomus-tsemppia-tassa-kaikki-mita-pitaa-tietaa-stubbin-twitterista/)
 
-```{r daily_tweets}
-par(mar=c(7,9,5,3))
-h <- hist(tw$created, main = paste(tweeter, "tweets by day"),
-          breaks="days", freq=T, 
-          xlab="", ylab="",col="grey55", lty=0,
-          cex.axis=1.3 ,cex.lab=1.5, tck=0.05, xaxt="n")
-peaks=2
-tickpos <- h$breaks[order(h$counts,decreasing=T)[1:peaks]]
-labels <- names(sort(table(format(tw$created,"%d.%m.%Y")),decreasing=T))[1:peaks]
-axis(1, at=tickpos, labels=labels,cex.axis=1.5)
-mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
-mtext(side = 1, text = "day", line = 3, cex = 1.5)
-```
+## A comment from Stubb
 
-### Hourly tweets
+Naturally, the former prime minister commented on the analysis using twitter.
 
-```{r tweets_hour, out.width = "700px"}
-hourly <- table(format(tw$created,"%H"))
-hourly_prc <- paste(round(100*hourly/sum(hourly),1),"%")
-par(mar=c(8,10,5,3))
-bp <- barplot(hourly, main = paste(tweeter, "tweets by hour"),
-              space=0.5, ylim=c(0,250),
-              ylab="",cex.lab=1, cex.names = 1.2,
-              cex.axis=1.2, las=2, col = "deepskyblue3",
-              xlab="")
-text(bp+0.1, hourly, hourly_prc, pos=3, cex=0.7) 
-mtext(side = 2, text = "tweets", line = 5, cex = 1.3)
-mtext(side = 1, text = "time", line = 5, cex = 1.3)
-```
-
-### Most active tweet days
-
-```{r active_days}
-top5tweetdays <- sort(table(format(tw$created,"%Y-%m-%d")),decreasing=T)[1:5]
-top5tweetdays
-```
-
-
-### Tweet times during the most active days
-
-```{r top_days}
-top5days <- names(top5tweetdays)
-
-topdaydata <- lapply(1:4,function(day) {
-  get_datedata(tw, top5days[day])
-})
-
-newpar <- par(mfrow=c(2,2))
-for(i in 1:4){
-  time <- topdaydata[[i]]$created
-  hist(time, breaks=100,freq=T,border=NULL,ylab="Tweets",
-       tck=0,cex.axis=0.8, cex.lab=0.8, xlab="",
-       main=paste0(tweeter," ",top5days[i]),
-       cex.main=1, ylim=c(0,8))
-}
-```
-
-### Hashtag frequencies
-
-```{r hashfreq}
-hashcounts <- extract_hashes(tw$text)
-hash <- head(hashcounts, 5)
-kable(hash)
-```
-
-```{r hashfreq_plot}
-par(las=2, mar=c(5,14,4,2))
-barplot(hash$freq, horiz=T, names.arg=hash$tag,
-        cex.names=1.3, cex.axis = 1.5,
-        col = "skyblue", border=NA)
-```
-
-### Most used words
-
-```{r wordclouds, out.height="900px", out.width = "900px"}
-# document term matrices for each language
-DTM <- get(load(paste0("data/",tweeter,"_DTM.Rda")))
-
-# word frequencies for each language
-FREQ <- lapply(DTM, twitter_wordfreqs)
-names(FREQ) <- names(DTM)
-
-# wordclouds
-par(mfrow= c(3,1))
-temp <- lapply(FREQ, function(lang) {
-  suppressWarnings(
-    wordcloud(lang$word, lang$freq,
-            scale = c(5,1),
-            random.order=FALSE, colors=brewer.pal(8, "Dark2")))
-})
-
-```
-
-knit(input = "readme.Rmd", output = "README.md")
+![](figure/stubb_response.png)

@@ -1,28 +1,53 @@
+---
+title: "Untitled"
+author: Tuomo Nieminen
+date: 01.02.2016
+output: html_document
+code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, out.width = "600px")
+
+source("utility/functions.R")
+access_libraries(install_all = F)
+
+#load data
+tweeter <- "alexstubb"
+filepath <- paste0("data/",tweeter,"_tweets.Rda")
+tw <- get(load(filepath))
+tw <- dplyr::select(tw, - suosio)
+```
+
+![](figure/stubb_hyppy.png)
+
+*Graphic by Heikki Ritaluoma* 
+
+# Wellcome to the Stubbtweets page
+
+This Github page includes explorations of former prime minister of Finland Alexsander Stubb's tweets retreived from the twitter API ananalyzed using the R programming language for statistical analysis. The codes are avaivable at the [StubbTweets repository](https://github.com/TuomoNieminen/StubbTweets).
+
+The former prime minister commented on the analysis using twitter.
+
+![](figure/stubb_response.png)
 
 
+# The data
 
+```{r, include = FALSE}
+mindate <- format(min(tw$created),"%d.%m.%Y")
+maxdate <- format(max(tw$created),"%d.%m.%Y")
+ntweets <- nrow(tw)
+data.frame(mindate,maxdate, ntweets)
+```
 
-# Wellcome
+```{r}
+glimpse(tw)
+```
 
-description of the project here
+# Monthly tweets
 
-## Explorative analysis
-
-Some basic exploration of the data via pics. Timelines of tweets.
-
-### Scope
-
-
-
-mindate     | maxdate     | tweets
------------ | ----------- | -------
-14.02.2015 | 19.02.2016 | 1740
-
-
-### Monthly tweets
-
-
-```r
+```{r monthly_tweets}
 par(mar=c(8,9,6,4))
 h <- hist(tw$created, main = paste(tweeter, "tweets by month"),
      breaks="month", freq=T, 
@@ -33,12 +58,9 @@ h <- hist(tw$created, main = paste(tweeter, "tweets by month"),
 mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
 ```
 
-<img src="figure/monthly_tweets-1.png" title="plot of chunk monthly_tweets" alt="plot of chunk monthly_tweets" width="600px" />
+# Daily tweets
 
-### Daily tweets
-
-
-```r
+```{r daily_tweets}
 par(mar=c(7,9,5,3))
 h <- hist(tw$created, main = paste(tweeter, "tweets by day"),
           breaks="days", freq=T, 
@@ -52,12 +74,9 @@ mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
 mtext(side = 1, text = "day", line = 3, cex = 1.5)
 ```
 
-<img src="figure/daily_tweets-1.png" title="plot of chunk daily_tweets" alt="plot of chunk daily_tweets" width="600px" />
+# Hourly tweets
 
-### Hourly tweets
-
-
-```r
+```{r tweets_hour, out.width = "700px"}
 hourly <- table(format(tw$created,"%H"))
 hourly_prc <- paste(round(100*hourly/sum(hourly),1),"%")
 par(mar=c(8,10,5,3))
@@ -71,27 +90,17 @@ mtext(side = 2, text = "tweets", line = 5, cex = 1.3)
 mtext(side = 1, text = "time", line = 5, cex = 1.3)
 ```
 
-<img src="figure/tweets_hour-1.png" title="plot of chunk tweets_hour" alt="plot of chunk tweets_hour" width="700px" />
+# Most active tweet days
 
-### Most active tweet days
-
-
-```r
+```{r active_days}
 top5tweetdays <- sort(table(format(tw$created,"%Y-%m-%d")),decreasing=T)[1:5]
 top5tweetdays
 ```
 
-```
-## 
-## 2015-12-16 2015-04-18 2015-04-01 2015-04-16 2015-03-10 
-##         43         36         22         22         21
-```
 
+# Tweet times during the most active days
 
-### Tweet times during the most active days
-
-
-```r
+```{r top_days}
 top5days <- names(top5tweetdays)
 
 topdaydata <- lapply(1:4,function(day) {
@@ -108,41 +117,24 @@ for(i in 1:4){
 }
 ```
 
-<img src="figure/top_days-1.png" title="plot of chunk top_days" alt="plot of chunk top_days" width="600px" />
+# Hashtag frequencies
 
-### Hashtag frequencies
-
-
-```r
+```{r hashfreq}
 hashcounts <- extract_hashes(tw$text)
 hash <- head(hashcounts, 5)
 kable(hash)
 ```
 
-
-
-|tag         | freq|
-|:-----------|----:|
-|#kokoomus   |   87|
-|#vaalit2015 |   78|
-|#eurogroup  |   62|
-|#työnkautta |   38|
-|#euco       |   24|
-
-
-```r
+```{r hashfreq_plot}
 par(las=2, mar=c(5,14,4,2))
 barplot(hash$freq, horiz=T, names.arg=hash$tag,
         cex.names=1.3, cex.axis = 1.5,
         col = "skyblue", border=NA)
 ```
 
-<img src="figure/hashfreq_plot-1.png" title="plot of chunk hashfreq_plot" alt="plot of chunk hashfreq_plot" width="600px" />
+# Most used words
 
-### Most used words
-
-
-```r
+```{r wordclouds, out.height="900px", out.width = "900px"}
 # document term matrices for each language
 DTM <- get(load(paste0("data/",tweeter,"_DTM.Rda")))
 
@@ -158,8 +150,5 @@ temp <- lapply(FREQ, function(lang) {
             scale = c(5,1),
             random.order=FALSE, colors=brewer.pal(8, "Dark2")))
 })
+
 ```
-
-<img src="figure/wordclouds-1.png" title="plot of chunk wordclouds" alt="plot of chunk wordclouds" width="900px" height="900px" />
-
-knit(input = "readme.Rmd", output = "README.md")
