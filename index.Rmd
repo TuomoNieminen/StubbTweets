@@ -34,7 +34,7 @@ tw <- dplyr::select(tw, -suosio)
 This GitHub page includes explorations of the former prime minister of Finland Alexander Stubb's tweets, retreived from the twitter API on Jan 2016 and ananalyzed using the R programming language for statistical analysis. The codes for the analysis are available at the [StubbTweets repository](https://github.com/TuomoNieminen/StubbTweets).
 
 
-# The data
+## The data
 
 ```{r, include = FALSE}
 mindate <- format(min(tw$created),"%d.%m.%Y")
@@ -47,7 +47,7 @@ data.frame(mindate,maxdate, ntweets)
 glimpse(tw)
 ```
 
-# Monthly tweets
+## Monthly tweets
 
 ```{r monthly_tweets}
 par(mar=c(8,9,6,4))
@@ -60,7 +60,7 @@ h <- hist(tw$created, main = paste(tweeter, "tweets by month"),
 mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
 ```
 
-# Daily tweets
+## Daily tweets
 
 ```{r daily_tweets}
 par(mar=c(7,9,5,3))
@@ -76,7 +76,7 @@ mtext(side = 2, text = "tweets", line = 5, cex = 1.5)
 mtext(side = 1, text = "day", line = 3, cex = 1.5)
 ```
 
-# Hourly tweets
+## Hourly tweets
 
 ```{r tweets_hour, out.width = "700px"}
 hourly <- table(format(tw$created,"%H"))
@@ -100,7 +100,7 @@ data.frame(top5tweetdays)
 ```
 
 
-# Tweet times during the most active days
+## Tweet times during the most active days
 
 ```{r top_days}
 top5days <- names(top5tweetdays)
@@ -119,7 +119,7 @@ for(i in 1:4){
 }
 ```
 
-# Hashtag frequencies
+## Hashtag frequencies
 
 ```{r hashfreq}
 hashcounts <- extract_hashes(tw$text)
@@ -134,9 +134,9 @@ barplot(hash$freq, horiz=T, names.arg=hash$tag,
         col = "skyblue", border=NA)
 ```
 
-# Most used words
+## Most used words
 
-```{r wordclouds, out.height="900px", out.width = "900px"}
+```{r wordclouds, fig.height=15, fig.width = 9}
 # document term matrices for each language
 DTM <- get(load(paste0("data/",tweeter,"_DTM.Rda")))
 
@@ -155,9 +155,85 @@ temp <- lapply(FREQ, function(lang) {
 
 ```
 
+# Topic model  
+
+```{r}
+TW <- get(load(paste0("data/",tweeter,"_topicdata.Rda")))
+tw_fi <- TW[[2]]
+topic_labels <- c("Kannanottoja", "SuomiNousuun","KookoomusTsemppi","Kansanviestit")
+tw_fi[["aihe"]] <- factor(tw_fi$topic, labels = topic_labels)
+tw_fi <- tw_fi[!is.na(tw_fi$aihe),]
+
+```
+
+## Average popularity by topics 
+
+```{r}
+library(dplyr)
+group_by(tw_fi, aihe) %>% 
+  summarise(keskisuosio = round(mean(suosio)), mediaanisuosio = round(quantile(suosio, probs=0.5)))
+
+```
+
+
+## Popularity by month
+
+```{r}
+
+# popularity by month
+df_summary <- get_summary(tw_fi, "kuukausi")
+q <- ggplot(df_summary,aes(aika,tweets, size=keski_suosio)) + geom_point() 
+q <- q + ylab("tweettejä") 
+q <- q + scale_x_discrete() + xlab("")
+q <- q + theme(axis.text.x=element_text(size = 10,angle = -90, hjust = 0),
+               axis.text.y = element_text(size = 15),
+               axis.title.y = element_text(size=15),
+               legend.text = element_text(size = 15),
+               legend.title = element_text(size=10))
+q
+```
+
+
+## Popularity by topics (log scale)
+
+```{r, warning = F}
+# help funtion for scale_y_log10
+fmt <- function(){
+  function(x) format(x, nsmall=0L, scientific = FALSE)
+}
+
+q <-ggplot(tw_fi,aes(x=aihe, y = suosio)) + 
+  geom_boxplot(outlier.size = 3)
+q <- q + scale_y_log10(labels=fmt())
+q + theme(text= element_text(size=15))
+```
+
+## Tweets by topic, hour and popularity
+
+```{r}
+
+q <- ggplot(tw_fi,aes(topic,tunti,color=aihe, size=suosio)) + 
+  geom_point(shape=19, position="jitter", alpha=0.5) + xlab("") + 
+  scale_size(range = c(1, 10))
+q <- q + theme(text = element_text(size =20),
+          legend.key.size=unit(1,"cm"),
+          legend.text = element_text(size = 10))
+
+q + guides(colour=guide_legend(override.aes=list(size=5)))
+```
+
+# Regression analysis
+
+```{r}
+
+tw_fi$vastaus <- !is.na(tw_fi$replyToSN)
+my_lm <- lm(suosio~aihe+tunti+vastaus,data=tw_fi)
+
+summary(my_lm)
+```
+
 # A comment from Stubb
 
 The former prime minister commented on the analysis using twitter.  
-
 
 ![](figure/stubb_response.png)
