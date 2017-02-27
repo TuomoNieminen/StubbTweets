@@ -31,7 +31,7 @@ tw <- dplyr::select(tw, -suosio)
 
 # Wellcome
 
-This GitHub page includes explorations of the former prime minister of Finland Alexander Stubb's tweets, retreived from the twitter API on Jan 2016 and ananalyzed using the R programming language for statistical analysis. The codes for the analysis are available at the [StubbTweets repository](https://github.com/TuomoNieminen/StubbTweets).
+This GitHub page includes explorations of the former prime minister of Finland Alexander Stubb's tweets, retreived from the twitter API on Jan 2016 and ananalyzed using the R programming language for statistical analysis. The codes for the analysis are available at the [StubbTweets repository](https://github.com/TuomoNieminen/StubbTweets). An article including the graphics displayed here can be found [here](http://tyyppiarvo.com/2016/03/kannanottoja-ja-kokoomus-tsemppia-tassa-kaikki-mita-pitaa-tietaa-stubbin-twitterista/) (in finnish).
 
 
 ## The data
