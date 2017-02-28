@@ -13,7 +13,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, out.width = "600px")
+knitr::opts_chunk$set(echo = TRUE, out.width = "600px", comment = NA)
 
 source("utility/functions.R")
 access_libraries(install_all = F)
@@ -119,7 +119,7 @@ for(i in 1:4){
 }
 ```
 
-## Hashtag frequencies
+## Most used hashtags
 
 ```{r hashfreq}
 hashcounts <- extract_hashes(tw$text)
@@ -166,7 +166,7 @@ tw_fi <- tw_fi[!is.na(tw_fi$aihe),]
 
 ```
 
-## Average popularity by topics 
+## Average popularity by topic  
 
 ```{r}
 library(dplyr)
@@ -176,7 +176,7 @@ group_by(tw_fi, aihe) %>%
 ```
 
 
-## Popularity by month
+## Number of tweets by month and popularity
 
 ```{r}
 
